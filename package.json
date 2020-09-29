@@ -1,0 +1,31 @@
+{
+  "name": "sbercoinjs-lib",
+  "version": "0.0.1",
+  "description": "An extend lib for bitcoinjs-lib, it supports a new network of sbercoin-mainnet, and it can generate contract creating and sending transactions",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SbercoinCom/sbercoinjs-lib.git"
+  },
+  "keywords": [
+    "blockchain solutions",
+	"sbercoin chain",
+	"sbercoin",
+    "sbercoinjs",
+    "smart contract",
+    "bitcoin"
+  ],
+  "author": "Blockchain Solutions",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SbercoinCom/sbercoinjs-lib/issues"
+  },
+  "homepage": "https://github.com/SbercoinCom/sbercoinjs-lib#readme",
+  "devDependencies": {},
+  "dependencies": {
+    "bignumber.js": "^4.1.0",
+    "bitcoinjs-lib": "^3.3.2",
+    "sbercoin-opcodes": "^1.0.0",
+    "safe-buffer": "^5.1.1"
+  }
+}
