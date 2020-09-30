@@ -25,7 +25,7 @@
   "dependencies": {
     "bignumber.js": "^4.1.0",
     "bitcoinjs-lib": "^3.3.2",
-    "sbercoin-opcodes": "^1.0.0",
+    "sbercoin-opcodes": "https://github.com/SbercoinCom/sbercoin-opcodes-js",
     "safe-buffer": "^5.1.1"
   }
 }
