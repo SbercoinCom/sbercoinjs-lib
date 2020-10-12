@@ -28,7 +28,7 @@ function selectTxs(unspentTransactions, amount, fee) {
     immatureList.sort(function(a, b) {return b.confirmations - a.confirmations})
     unspentTransactions = matureList.concat(immatureList)
 
-    var value = new BigNumber(amount).plus(fee).times(1e8)
+    var value = new BigNumber(amount).plus(fee).times(1e7)
     var find = []
     var findTotal = new BigNumber(0)
     for (var i = 0; i < unspentTransactions.length; i++) {
@@ -59,8 +59,8 @@ function buildPubKeyHashTransaction(keyPair, to, amount, fee, utxoList) {
     var inputs = selectTxs(utxoList, amount, fee)
     var tx = new bitcoinjs.TransactionBuilder(keyPair.network)
     var totalValue = new BigNumber(0)
-    var value = new BigNumber(amount).times(1e8)
-    var sendFee = new BigNumber(fee).times(1e8)
+    var value = new BigNumber(amount).times(1e7)
+    var sendFee = new BigNumber(fee).times(1e7)
     for (var i = 0; i < inputs.length; i++) {
         tx.addInput(inputs[i].hash, inputs[i].pos)
         totalValue = totalValue.plus(inputs[i].value)
@@ -90,11 +90,11 @@ function buildPubKeyHashTransaction(keyPair, to, amount, fee, utxoList) {
 function buildCreateContractTransaction(keyPair, code, gasLimit, gasPrice, fee, utxoList) {
     var from = keyPair.getAddress()
     var amount = 0
-    fee = new BigNumber(gasLimit).times(gasPrice).div(1e8).add(fee).toNumber()
+    fee = new BigNumber(gasLimit).times(gasPrice).div(1e7).add(fee).toNumber()
     var inputs = selectTxs(utxoList, amount, fee)
     var tx = new bitcoinjs.TransactionBuilder(keyPair.network)
     var totalValue = new BigNumber(0)
-    var sendFee = new BigNumber(fee).times(1e8)
+    var sendFee = new BigNumber(fee).times(1e7)
     for (var i = 0; i < inputs.length; i++) {
         tx.addInput(inputs[i].hash, inputs[i].pos)
         totalValue = totalValue.plus(inputs[i].value)
@@ -132,11 +132,11 @@ function buildCreateContractTransaction(keyPair, code, gasLimit, gasPrice, fee, 
 function buildSendToContractTransaction(keyPair, contractAddress, encodedData, gasLimit, gasPrice, fee, utxoList) {
     var from = keyPair.getAddress()
     var amount = 0
-    fee = new BigNumber(gasLimit).times(gasPrice).div(1e8).add(fee).toNumber()
+    fee = new BigNumber(gasLimit).times(gasPrice).div(1e7).add(fee).toNumber()
     var inputs = selectTxs(utxoList, amount, fee)
     var tx = new bitcoinjs.TransactionBuilder(keyPair.network)
     var totalValue = new BigNumber(0)
-    var sendFee = new BigNumber(fee).times(1e8)
+    var sendFee = new BigNumber(fee).times(1e7)
     for (var i = 0; i < inputs.length; i++) {
         tx.addInput(inputs[i].hash, inputs[i].pos)
         totalValue = totalValue.plus(inputs[i].value)
