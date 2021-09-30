@@ -82,7 +82,7 @@ function buildPubKeyHashTransaction(keyPair, to, amount, fee, utxoList) {
  * @param bitcoinjs-lib.KeyPair keyPair
  * @param String code The contract byte code
  * @param Number gasLimit
- * @param Number gasPrice(unit: 1e-8 SBER/gas)
+ * @param Number gasPrice(unit: 1e-7 SBER/gas)
  * @param Number fee(unit: SBER)
  * @param [transaction] utxoList
  * @returns String the built tx
@@ -102,7 +102,12 @@ function buildCreateContractTransaction(keyPair, code, gasLimit, gasPrice, fee, 
     var contract =  bitcoinjs.script.compile([
         OPS.OP_4,
         number2Buffer(gasLimit),
-        number2Buffer(gasPrice),
+        (gasPrice > 16) ? 
+            number2Buffer(gasPrice) :
+            Buffer.concat([
+                number2Buffer(gasPrice), 
+                Buffer.from([0])
+            ]),
         hex2Buffer(code),
         OPS.OP_CREATE
     ])
@@ -124,7 +129,7 @@ function buildCreateContractTransaction(keyPair, code, gasLimit, gasPrice, fee, 
  * @param String contractAddress The contract address
  * @param String encodedData The encoded abi data
  * @param Number gasLimit
- * @param Number gasPrice(unit: 1e-8 SBER/gas)
+ * @param Number gasPrice(unit: 1e-7 SBER/gas)
  * @param Number fee(unit: SBER)
  * @param [transaction] utxoList
  * @returns String the built tx
@@ -144,7 +149,12 @@ function buildSendToContractTransaction(keyPair, contractAddress, encodedData, g
     var contract =  bitcoinjs.script.compile([
         OPS.OP_4,
         number2Buffer(gasLimit),
-        number2Buffer(gasPrice),
+        (gasPrice > 16) ? 
+            number2Buffer(gasPrice) :
+            Buffer.concat([
+                number2Buffer(gasPrice), 
+                Buffer.from([0])
+            ]),
         hex2Buffer(encodedData),
         hex2Buffer(contractAddress),
         OPS.OP_CALL
