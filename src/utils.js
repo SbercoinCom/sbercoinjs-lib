@@ -127,12 +127,29 @@ function buildCreateContractTransaction(keyPair, code, gasLimit, gasPrice, fee, 
         OPS.OP_CREATE
     ])
     tx.addOutput(contract, 0)
-    if (totalValue.minus(sendFee).toNumber() > 0) {
-        tx.addOutput(from, totalValue.minus(sendFee).toNumber())
+
+    let outputBN = totalValue.minus(value).minus(sendFee)
+
+    if (outputBN.toNumber() > 1) {
+        const maxOutput = 1e15
+
+        const outputsCount = Math.ceil(outputBN.toNumber() / maxOutput)
+
+        new Array(outputsCount).fill().forEach(() => {
+            const output = outputBN.toNumber()
+            const out = output > maxOutput ? maxOutput : output
+
+            if (output > maxOutput)
+                outputBN = outputBN.minus(maxOutput)
+
+            tx.addOutput(from, out)
+        })
     }
+
     for (var i = 0; i < inputs.length; i++) {
         tx.sign(i, keyPair)
     }
+
     return tx.build().toHex()
 }
 
